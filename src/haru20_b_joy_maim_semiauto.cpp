@@ -44,12 +44,16 @@ enum class ControllerStatus : uint16_t
     shutdown    = 0x0001,
 
     standby     = 0x0010, // standby at start zone
-    sz_to_fts,            // moving from SZ to fts                ::fmtとはflont of transport shipの略
-    fts_to_bts,           // catch ts and moving from fts to bts  ::手動の予定。
-    pp_to_pp1,            // moving from PP to PP1
-    pp1_to_tp,            // moving from TZ1 to DP1
-    tp_throwing,          // throwing at TP
-    tp_to_sz,             // moving from TP to SZ
+    sz_to_fts,            // moving from SZ to FTS                ::FTSとはFlont of Transport Shipの略
+    fts_to_ts,            // moving from FTS to TS                ::手動の予定。
+    pick_ts,              // pick TS                              ::手動の予定。
+    ts_to_bts,            // moving from TS to BTS                ::手動の予定。 BTSはBack of TS
+    bts_to_pz,            // moving from BTS to PZ                ::PZはPlanet Zone
+    set_ts,               // setting TS                           ::手動の予定。
+    pz_to_gz,             // moving from PZ to GZ                 ::GZはGoods Zone　
+    pick_goods,           // pick the goods                       ::goodsは物資。
+    gz_to_pz,             // moving from PZ to GZ                 ::GZはGoods Zone　
+    set_goods,            // setting goods                        ::手動の予定。
 };
 
 class CrMain
