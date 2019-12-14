@@ -5,6 +5,14 @@
  *      Author: shun
  */
 
+/*
+ * haru20_b_joy_main_semiauto.cpp
+ *
+ *  Created on: Aug 19, 2019
+ *      Author: shun
+ */
+
+
 #include <ros/ros.h>
 #include <std_msgs/UInt8.h>
 #include <std_msgs/UInt16.h>
