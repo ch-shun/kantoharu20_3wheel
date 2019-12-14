@@ -8,7 +8,7 @@
 /*
  * haru20_b_joy_main_semiauto.cpp
  *
- *  Created on: Aug 19, 2019
+ *  Created on: Dec 15, 2019
  *      Author: shun
  */
 
