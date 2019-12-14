@@ -57,12 +57,99 @@ enum class ControllerStatus : uint16_t
     pick_ts,              // pick TS                              ::手動の予定。
     ts_to_bts,            // moving from TS to BTS                ::手動の予定。 BTSはBack of TS
     bts_to_pz,            // moving from BTS to PZ                ::PZはPlanet Zone
-    set_ts,               // setting TS                           ::手動の予定。
+    put_ts,               // putting TS                           ::手動の予定。
     pz_to_gz,             // moving from PZ to GZ                 ::GZはGoods Zone　
     pick_goods,           // pick the goods                       ::goodsは物資。
     gz_to_pz,             // moving from PZ to GZ                 ::GZはGoods Zone　
-    set_goods,            // setting goods                        ::手動の予定。
+    put_goods,            // putting goods                        ::手動の予定。
 };
+
+enum class ControllerCommands : uint16_t
+{
+    shutdown, // shutdown
+
+    standby, // stand-by at SZ
+
+    grab_ts,
+    release_ts,
+    grab_goods,
+    release_goods,
+ // load_shagai,
+    put_arm_back,
+    adjust_arm,
+    expand,
+    contract,
+    put_ts,
+    put_goods,
+ // shrink_cylinder,
+
+    sz_to_fts,
+    fts_to_ts,
+    ts_to_bts,
+    bts_to_pz,
+    pz_to_gz,
+    gz_to_pz,
+
+    set_delay_250ms,
+    set_delay_500ms,
+    set_delay_1s,
+
+    delay,
+
+//  segno,
+//  dal_segno,
+
+    wait_next_pressed,
+};
+
+enum class OpMode : uint8_t
+{
+    def         = 0b000,
+    full_op     = 0b001,
+
+    move_test   = 0b100,
+    pickup_test = 0b101,
+    put_test  = 0b110,
+    pickup_and_put_test = 0b111,
+};
+
+enum class ArmStatus : uint16_t
+{
+    shutdown    = 0x0000,
+    reset       = 0x0001,
+};
+
+enum class ArmCommands : uint16_t
+{
+    shutdown_cmd        = 0b0000,
+    reset_cmd           = 0b1001,
+
+    grab_ts_cmd     = 0b0001,
+    grab_goods_cmd     = 0b0010,
+    put_cmd           = 0b1000,
+};
+
+enum class BaseStatus : uint16_t
+{
+    shutdown    = 0x0000,
+    reset       = 0x0001,
+    operational = 0x0010,
+};
+
+enum class BaseCommands : uint16_t
+{
+    shutdown_cmd    = 0x0000,
+    reset_cmd       = 0x0001,
+    operational_cmd = 0x0010,
+};
+
+enum class MotorCommands : uint8_t
+{
+    shutdown_cmd    = 0x0000,
+    reset_cmd       = 0x0001,
+    homing_cmd      = 0x0010,
+};
+
 
 class CrMain
 {
