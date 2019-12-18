@@ -159,7 +159,12 @@ public:
 private:
     void shutdownInputCallback(const std_msgs::Empty::ConstPtr& msg);
     void startInputCallback(const std_msgs::Empty::ConstPtr& msg);
-    void joyCallback(const sensor_msgs::Joy::ConstPtr& joy);
+    void joyCallback(const sensor_msgs::Joy::ConstPtr& joy);\^987
+    void baseStatusCallback(const std_msgs::UInt16::ConstPtr &msg);
+    void baseConfCallback(const std_msgs::UInt8::ConstPtr &msg);
+    void motorStatusCallback(const std_msgs::UInt8::ConstPtr &msg);
+    void goalReachedCallback(const std_msgs::Bool::ConstPtr &msg);
+    void control_timer_callback(const ros::TimerEvent &event);
 
     ros::NodeHandle nh_;
 
