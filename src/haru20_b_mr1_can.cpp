@@ -75,11 +75,11 @@ private:
     void baseCmdCallback(const std_msgs::UInt16::ConstPtr& msg);
 
     void ft0motorCmdCallback(const std_msgs::UInt8::ConstPtr& msg);
-    void ft0motorCmdPosCallback(const std_msgs::Float64::ConstPtr& msg); 
+    void ft0motorCmdPosCallback(const std_msgs::Float32::ConstPtr& msg); 
     void ft1motorCmdCallback(const std_msgs::UInt8::ConstPtr& msg);
-    void ft1motorCmdPosCallback(const std_msgs::Float64::ConstPtr& msg);    
+    void ft1motorCmdPosCallback(const std_msgs::Float32::ConstPtr& msg);    
     void ft2motorCmdCallback(const std_msgs::UInt8::ConstPtr& msg);
-    void ft2motorCmdPosCallback(const std_msgs::Float64::ConstPtr& msg);     
+    void ft2motorCmdPosCallback(const std_msgs::Float32::ConstPtr& msg);     
   
     void thmotorCmdCallback(const std_msgs::UInt8::ConstPtr& msg);
     void thmotorCmdPosCallback(const std_msgs::Float32::ConstPtr& msg);   
@@ -157,7 +157,7 @@ Mr1CanNode::Mr1CanNode(void)
 
     _ft_0_motor_status_pub      	    = _nh.advertise<std_msgs::UInt8>("motor_status", 10);
     _ft_0_motor_cmd_en_sub	            = _nh.subscribe<std_msgs::UInt8>("base/motor0_cmd", 10, &Mr1CanNode::ft0motorCmdCallback, this);
-    _ft_0_motor_cmd_vel_sub	    	    = _nh.subscribe<std_msgs::Float64>("base/motor0_cmd_vel", 10, &Mr1CanNode::ft0motorCmdPosCallback, this);
+    _ft_0_motor_cmd_vel_sub	    	    = _nh.subscribe<std_msgs::Float32>("base/motor0_cmd_vel", 10, &Mr1CanNode::ft0motorCmdPosCallback, this);
 
     _ft_1_motor_status_pub      	    = _nh.advertise<std_msgs::UInt8>("motor_status", 10);
     _ft_1_motor_cmd_en_sub	            = _nh.subscribe<std_msgs::UInt8>("base/motor1_cmd", 10, &Mr1CanNode::ft1motorCmdCallback, this);
