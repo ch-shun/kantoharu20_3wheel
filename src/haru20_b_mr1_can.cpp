@@ -12,6 +12,13 @@
  *      Author: shun
  */
 
+/*
+ * kantoharu20_mr1_can.cpp
+ *
+ *  Created on: Nov 30, 2019
+ *      Author: shun
+ */
+
 #include <ros/ros.h>
 #include <std_msgs/UInt8.h>
 #include <std_msgs/UInt16.h>
@@ -92,23 +99,23 @@ private:
     ros::Publisher  _base_conf_pub;
 
     ros::Publisher  _ft_0_motor_status_pub;
-    ros::Subscriber _ft_0_motor_cmd_sub;
-    ros::Subscriber _ft_0_motor_cmd_pos_sub;
+    ros::Subscriber _ft_0_motor_cmd_en_sub;
+    ros::Subscriber _ft_0_motor_cmd_vel_sub;
 
     ros::Publisher  _ft_1_motor_status_pub;
-    ros::Subscriber _ft_1_motor_cmd_sub;
-    ros::Subscriber _ft_1_motor_cmd_pos_sub;
+    ros::Subscriber _ft_1_motor_cmd_en_sub;
+    ros::Subscriber _ft_1_motor_cmd_vel_sub;
 
     ros::Publisher  _ft_2_motor_status_pub;
-    ros::Subscriber _ft_2_motor_cmd_sub;
-    ros::Subscriber _ft_2_motor_cmd_pos_sub;
+    ros::Subscriber _ft_2_motor_cmd_en_sub;
+    ros::Subscriber _ft_2_motor_cmd_vel_sub;
 
     ros::Publisher  _th_motor_status_pub;
-    ros::Subscriber _th_motor_cmd_sub;
+    ros::Subscriber _th_motor_cmd_en_sub;
     ros::Subscriber _th_motor_cmd_pos_sub;
 
     ros::Publisher  _pc_motor_status_pub;
-    ros::Subscriber _pc_motor_cmd_sub;
+    ros::Subscriber _pc_motor_cmd_en_sub;
     ros::Subscriber _pc_motor_cmd_pos_sub;
 
     static constexpr uint16_t id_baseStatus             = 0x200;
@@ -117,25 +124,25 @@ private:
     static constexpr uint16_t id_baseOdomYaw            = 0x207;
     static constexpr uint16_t id_baseConf               = 0x208;
 
-    static constexpr uint16_t id_ft_0_motor_cmd         = 0x4b8;
-    static constexpr uint16_t id_ft_0_motor_cmd_pos     = (id_ft_0_motor_cmd + 1);
-    static constexpr uint16_t id_ft_0_motor_status      = (id_ft_0_motor_cmd + 2);
+    static constexpr uint16_t id_ft_0_motor_cmd_en      = 0x500;
+    static constexpr uint16_t id_ft_0_motor_cmd_vel     = (id_ft_0_motor_cmd_en + 1);
+    static constexpr uint16_t id_ft_0_motor_status      = (id_ft_0_motor_cmd_en + 2);
 
-    static constexpr uint16_t id_ft_1_motor_cmd         = 0x4d0;
-    static constexpr uint16_t id_ft_1_motor_cmd_pos     = (id_ft_1_motor_cmd + 1);
-    static constexpr uint16_t id_ft_1_motor_status      = (id_ft_1_motor_cmd + 2);
+    static constexpr uint16_t id_ft_1_motor_cmd_en      = 0x504;
+    static constexpr uint16_t id_ft_1_motor_cmd_vel     = (id_ft_1_motor_cmd_en + 1);
+    static constexpr uint16_t id_ft_1_motor_status      = (id_ft_1_motor_cmd_en + 2);
 
-    static constexpr uint16_t id_ft_2_motor_cmd         = 0x4d4;
-    static constexpr uint16_t id_ft_2_motor_cmd_pos     = (id_ft_2_motor_cmd + 1);
-    static constexpr uint16_t id_ft_2_motor_status      = (id_ft_2_motor_cmd + 2);
+    static constexpr uint16_t id_ft_2_motor_cmd_en      = 0x508;
+    static constexpr uint16_t id_ft_2_motor_cmd_vel     = (id_ft_2_motor_cmd_en + 1);
+    static constexpr uint16_t id_ft_2_motor_status      = (id_ft_2_motor_cmd_en + 2);
 
-    static constexpr uint16_t id_th_motor_cmd           = 0x4f0;
-    static constexpr uint16_t id_th_motor_cmd_pos       = (id_th_motor_cmd + 1);
-    static constexpr uint16_t id_th_motor_status        = (id_th_motor_cmd + 2);
+    static constexpr uint16_t id_th_motor_cmd_en        = 0x4f0;
+    static constexpr uint16_t id_th_motor_cmd_pos       = (id_th_motor_cmd_en + 1);
+    static constexpr uint16_t id_th_motor_status        = (id_th_motor_cmd_en + 2);
 
-    static constexpr uint16_t id_pc_motor_cmd           = 0x4f4;
-    static constexpr uint16_t id_pc_motor_cmd_pos       = (id_pc_motor_cmd + 1);
-    static constexpr uint16_t id_pc_motor_status        = (id_pc_motor_cmd + 2);
+    static constexpr uint16_t id_pc_motor_cmd_en        = 0x4f4;
+    static constexpr uint16_t id_pc_motor_cmd_pos       = (id_pc_motor_cmd_en + 1);
+    static constexpr uint16_t id_pc_motor_status        = (id_pc_motor_cmd_en + 2);
 
 
 };
@@ -149,23 +156,23 @@ Mr1CanNode::Mr1CanNode(void)
     _base_conf_pub			    = _nh.advertise<std_msgs::UInt8>("base/conf", 10);
 
     _ft_0_motor_status_pub      	    = _nh.advertise<std_msgs::UInt8>("motor_status", 10);
-    _ft_0_motor_cmd_sub	        	    = _nh.subscribe<std_msgs::UInt8>("base/motor0_cmd", 10, &Mr1CanNode::ft0motorCmdCallback, this);
-    _ft_0_motor_cmd_pos_sub	    	    = _nh.subscribe<std_msgs::Float32>("base/motor0_cmd_vel", 10, &Mr1CanNode::ft0motorCmdPosCallback, this);
+    _ft_0_motor_cmd_en_sub	            = _nh.subscribe<std_msgs::UInt8>("base/motor0_cmd", 10, &Mr1CanNode::ft0motorCmdCallback, this);
+    _ft_0_motor_cmd_vel_sub	    	    = _nh.subscribe<std_msgs::Float32>("base/motor0_cmd_vel", 10, &Mr1CanNode::ft0motorCmdPosCallback, this);
 
     _ft_1_motor_status_pub      	    = _nh.advertise<std_msgs::UInt8>("motor_status", 10);
-    _ft_1_motor_cmd_sub	          	    = _nh.subscribe<std_msgs::UInt8>("base/motor1_cmd", 10, &Mr1CanNode::ft1motorCmdCallback, this);
-    _ft_1_motor_cmd_pos_sub	    	    = _nh.subscribe<std_msgs::Float32>("base/motor1_cmd_vel", 10, &Mr1CanNode::ft1motorCmdPosCallback, this);
+    _ft_1_motor_cmd_en_sub	            = _nh.subscribe<std_msgs::UInt8>("base/motor1_cmd", 10, &Mr1CanNode::ft1motorCmdCallback, this);
+    _ft_1_motor_cmd_vel_sub	    	    = _nh.subscribe<std_msgs::Float64>("base/motor1_cmd_vel", 10, &Mr1CanNode::ft1motorCmdPosCallback, this);
 
     _ft_2_motor_status_pub      	    = _nh.advertise<std_msgs::UInt8>("motor_status", 10);
-    _ft_2_motor_cmd_sub	        	    = _nh.subscribe<std_msgs::UInt8>("base/motor2_cmd", 10, &Mr1CanNode::ft2motorCmdCallback, this);
-    _ft_2_motor_cmd_pos_sub	    	    = _nh.subscribe<std_msgs::Float32>("base/motor2_cmd_vel", 10, &Mr1CanNode::ft2motorCmdPosCallback, this);
+    _ft_2_motor_cmd_en_sub	       	    = _nh.subscribe<std_msgs::UInt8>("base/motor2_cmd", 10, &Mr1CanNode::ft2motorCmdCallback, this);
+    _ft_2_motor_cmd_vel_sub	    	    = _nh.subscribe<std_msgs::Float64>("base/motor2_cmd_vel", 10, &Mr1CanNode::ft2motorCmdPosCallback, this);
 
     _th_motor_status_pub      		    = _nh.advertise<std_msgs::UInt8>("motor_status", 10);
-    _th_motor_cmd_sub	        	    = _nh.subscribe<std_msgs::UInt8>("throw/motorth_cmd", 10, &Mr1CanNode::thmotorCmdCallback, this);
+    _th_motor_cmd_en_sub	       	    = _nh.subscribe<std_msgs::UInt8>("throw/motorth_cmd", 10, &Mr1CanNode::thmotorCmdCallback, this);
     _th_motor_cmd_pos_sub	    	    = _nh.subscribe<std_msgs::Float32>("throw/motorth_cmd_pos", 10, &Mr1CanNode::thmotorCmdPosCallback, this);
 
     _pc_motor_status_pub      		    = _nh.advertise<std_msgs::UInt8>("motor_status", 10);
-    _pc_motor_cmd_sub	        	    = _nh.subscribe<std_msgs::UInt8>("pick/motorpc_cmd", 10, &Mr1CanNode::pcmotorCmdCallback, this);
+    _pc_motor_cmd_en_sub	       	    = _nh.subscribe<std_msgs::UInt8>("pick/motorpc_cmd", 10, &Mr1CanNode::pcmotorCmdCallback, this);
     _pc_motor_cmd_pos_sub	   	    = _nh.subscribe<std_msgs::Float32>("pick/motorpc_cmd_pos", 10, &Mr1CanNode::pcmotorCmdPosCallback, this);
 
 }
@@ -173,37 +180,37 @@ Mr1CanNode::Mr1CanNode(void)
 
 void Mr1CanNode::ft0motorCmdCallback(const std_msgs::UInt8::ConstPtr& msg)
 {
-    this->sendData(id_ft_0_motor_cmd, msg->data);
+    this->sendData(id_ft_0_motor_cmd_en, msg->data);
 }
 
-void Mr1CanNode::ft0motorCmdPosCallback(const std_msgs::Float32::ConstPtr& msg)
+void Mr1CanNode::ft0motorCmdPosCallback(const std_msgs::Float64::ConstPtr& msg)
 {
-    this->sendData(id_ft_0_motor_cmd_pos, msg->data);
+    this->sendData(id_ft_0_motor_cmd_vel, msg->data);
 }
 
 void Mr1CanNode::ft1motorCmdCallback(const std_msgs::UInt8::ConstPtr& msg)
 {
-    this->sendData(id_ft_1_motor_cmd, msg->data);
+    this->sendData(id_ft_1_motor_cmd_en, msg->data);
 }
 
-void Mr1CanNode::ft1motorCmdPosCallback(const std_msgs::Float32::ConstPtr& msg)
+void Mr1CanNode::ft1motorCmdPosCallback(const std_msgs::Float64::ConstPtr& msg)
 {
-    this->sendData(id_ft_1_motor_cmd_pos, msg->data);
+    this->sendData(id_ft_1_motor_cmd_vel, msg->data);
 }
 
 void Mr1CanNode::ft2motorCmdCallback(const std_msgs::UInt8::ConstPtr& msg)
 {
-    this->sendData(id_ft_2_motor_cmd, msg->data);
+    this->sendData(id_ft_2_motor_cmd_en, msg->data);
 }
 
-void Mr1CanNode::ft2motorCmdPosCallback(const std_msgs::Float32::ConstPtr& msg)
+void Mr1CanNode::ft2motorCmdPosCallback(const std_msgs::Float64::ConstPtr& msg)
 {
-    this->sendData(id_ft_2_motor_cmd_pos, msg->data);
+    this->sendData(id_ft_2_motor_cmd_vel, msg->data);
 }
 
 void Mr1CanNode::thmotorCmdCallback(const std_msgs::UInt8::ConstPtr& msg)
 {
-    this->sendData(id_th_motor_cmd, msg->data);
+    this->sendData(id_th_motor_cmd_en, msg->data);
 }
 
 void Mr1CanNode::thmotorCmdPosCallback(const std_msgs::Float32::ConstPtr& msg)
@@ -213,7 +220,7 @@ void Mr1CanNode::thmotorCmdPosCallback(const std_msgs::Float32::ConstPtr& msg)
 
 void Mr1CanNode::pcmotorCmdCallback(const std_msgs::UInt8::ConstPtr& msg)
 {
-    this->sendData(id_pc_motor_cmd, msg->data);
+    this->sendData(id_pc_motor_cmd_en, msg->data);
 }
 
 void Mr1CanNode::pcmotorCmdPosCallback(const std_msgs::Float32::ConstPtr& msg)
@@ -224,12 +231,12 @@ void Mr1CanNode::pcmotorCmdPosCallback(const std_msgs::Float32::ConstPtr& msg)
 void Mr1CanNode::canRxCallback(const can_msgs::CanFrame::ConstPtr &msg)
 {
     std_msgs::UInt16 _base_status_msg;
-    std_msgs::UInt8 _base_conf_msg;
-    std_msgs::UInt8 _ft_0_motor_status_msg;
-    std_msgs::UInt8 _ft_1_motor_status_msg;
-    std_msgs::UInt8 _ft_2_motor_status_msg;
-    std_msgs::UInt8 _th_motor_status_msg;
-    std_msgs::UInt8 _pc_motor_status_msg;
+    std_msgs::UInt8  _base_conf_msg;
+    std_msgs::UInt8  _ft_0_motor_status_msg;
+    std_msgs::UInt8  _ft_1_motor_status_msg;
+    std_msgs::UInt8  _ft_2_motor_status_msg;
+    std_msgs::UInt8  _th_motor_status_msg;
+    std_msgs::UInt8  _pc_motor_status_msg;
 
     switch(msg->id)
     {

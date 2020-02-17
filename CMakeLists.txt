@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(kantonatsu)
+project(kantoharu20_3wheel)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
@@ -204,9 +204,12 @@ include_directories(
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
 
-add_executable(natu19_b_joy_main src/natu19_b_joy_main.cpp)
-target_link_libraries(natu19_b_joy_main ${catkin_LIBRARIES})
+add_executable(haru20_b_joy_main src/haru20_b_joy_main.cpp)
+target_link_libraries(haru20_b_joy_main ${catkin_LIBRARIES})
 
-add_executable(natu19_b_mr1_can src/natu19_b_mr1_can.cpp)
-target_link_libraries(natu19_b_mr1_can ${catkin_LIBRARIES})
-add_dependencies(natu19_b_mr1_can ${catkin_EXPORTED_TARGETS})
+add_executable(usb_can_node_20 src/usb_can_node_19.cpp)
+target_link_libraries(usb_can_node_20 ${catkin_LIBRARIES})
+
+add_executable(haru20_b_mr1_can src/haru20_b_mr1_can.cpp)
+target_link_libraries(haru20_b_mr1_can ${catkin_LIBRARIES})
+add_dependencies(haru20_b_mr1_can ${catkin_EXPORTED_TARGETS})
